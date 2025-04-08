@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solar System Animation with Adjustable Speed</title>
+  <style>
+    :root {
+      /* Adjust the speed multiplier here: 
+         1 = default speed, >1 = faster, <1 = slower */
+      --speed-multiplier: 0.9;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #000000 0%, #1a1a2e 100%);
+      overflow: hidden;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+    .solar-system {
+      position: relative;
+      width: 100vmin;
+      height: 100vmin;
+    }
+    .sun {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, yellow, orange 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 50px yellow, 0 0 100px orange;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* The planet element now contains its name. */
+    .planet {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: white;
+    }
+    .planet-name {
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+    /* Orbit and planet definitions with adjustable animation durations */
+    .mercury-orbit { width: 120px; height: 120px; }
+    .mercury { 
+      width: 8px; 
+      height: 8px; 
+      background: #b5b5b5; 
+      animation: orbit calc(4s / var(--speed-multiplier)) linear infinite; 
+    }
+    .venus-orbit { width: 160px; height: 160px; }
+    .venus { 
+      width: 12px; 
+      height: 12px; 
+      background: #e6c229; 
+      animation: orbit calc(7s / var(--speed-multiplier)) linear infinite; 
+    }
+    .earth-orbit { width: 200px; height: 200px; }
+    .earth { 
+      width: 14px; 
+      height: 14px; 
+      background: #6b93d6; 
+      animation: orbit calc(10s / var(--speed-multiplier)) linear infinite; 
+    }
+    .mars-orbit { width: 240px; height: 240px; }
+    .mars { 
+      width: 12px; 
+      height: 12px; 
+      background: #e27b58; 
+      animation: orbit calc(15s / var(--speed-multiplier)) linear infinite; 
+    }
+    .jupiter-orbit { width: 300px; height: 300px; }
+    .jupiter { 
+      width: 24px; 
+      height: 24px; 
+      background: #e36458; 
+      animation: orbit calc(20s / var(--speed-multiplier)) linear infinite; 
+    }
+    .saturn-orbit { width: 360px; height: 360px; }
+    .saturn { 
+      width: 20px; 
+      height: 20px; 
+      background: #e3e058; 
+      animation: orbit calc(25s / var(--speed-multiplier)) linear infinite; 
+      box-shadow: 0 0 0 4px rgba(227, 224, 88, 0.3),
+                  0 0 0 8px rgba(227, 224, 88, 0.2);
+    }
+    .uranus-orbit { width: 420px; height: 420px; }
+    .uranus { 
+      width: 16px; 
+      height: 16px; 
+      background: #58e3d9; 
+      animation: orbit calc(30s / var(--speed-multiplier)) linear infinite; 
+    }
+    .neptune-orbit { width: 480px; height: 480px; }
+    .neptune { 
+      width: 16px; 
+      height: 16px; 
+      background: #5886e3; 
+      animation: orbit calc(35s / var(--speed-multiplier)) linear infinite; 
+    }
+    /* The keyframes animate the planet's orbit */
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(var(--radius)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(var(--radius)) rotate(-360deg); }
+    }
+    /* Background stars */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  
+  <div class="solar-system">
+    <div class="sun"></div>
+    
+    <div class="orbit mercury-orbit">
+      <div class="planet mercury">
+        <span class="planet-name">Mercury</span>
+      </div>
+    </div>
+    
+    <div class="orbit venus-orbit">
+      <div class="planet venus">
+        <span class="planet-name">Venus</span>
+      </div>
+    </div>
+    
+    <div class="orbit earth-orbit">
+      <div class="planet earth">
+        <span class="planet-name">Earth</span>
+      </div>
+    </div>
+    
+    <div class="orbit mars-orbit">
+      <div class="planet mars">
+        <span class="planet-name">Mars</span>
+      </div>
+    </div>
+    
+    <div class="orbit jupiter-orbit">
+      <div class="planet jupiter">
+        <span class="planet-name">Jupiter</span>
+      </div>
+    </div>
+    
+    <div class="orbit saturn-orbit">
+      <div class="planet saturn">
+        <span class="planet-name">Saturn</span>
+      </div>
+    </div>
+    
+    <div class="orbit uranus-orbit">
+      <div class="planet uranus">
+        <span class="planet-name">Uranus</span>
+      </div>
+    </div>
+    
+    <div class="orbit neptune-orbit">
+      <div class="planet neptune">
+        <span class="planet-name">Neptune</span>
+      </div>
+    </div>
+    
+  </div>
+  
+  <script>
+    // Create twinkling stars in the background
+    const starsContainer = document.getElementById('stars');
+    const starCount = 200;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      const size = Math.random() * 1.5 + 0.5;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.setProperty('--duration', `${Math.random() * 4 + 1}s`);
+      star.style.animationDelay = `${Math.random() * 5}s`;
+      starsContainer.appendChild(star);
+    }
+    // Set the orbit radius for each planet based on its parent's width
+    document.querySelectorAll('.planet').forEach(planet => {
+      const orbit = planet.parentElement;
+      const radius = orbit.offsetWidth / 2;
+      planet.style.setProperty('--radius', `${radius}px`);
+    });
+  </script>
+</body>
+</html>
